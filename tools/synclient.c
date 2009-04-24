@@ -53,6 +53,12 @@
 #endif
 #endif
 
+union flong { /* Xlibs 64-bit property handling madness */
+    long l;
+    float f;
+};
+
+
 enum ParaType {
     PT_INT,
     PT_BOOL,
@@ -531,7 +537,7 @@ dp_set_variables(Display *dpy, XDevice* dev, int argc, char *argv[], int first_c
     unsigned char* data;
     unsigned long nitems, bytes_after;
 
-    float *f;
+    union flong *f;
     long *n;
     char *b;
 
@@ -584,8 +590,8 @@ dp_set_variables(Display *dpy, XDevice* dev, int argc, char *argv[], int first_c
 			    par->name, format);
 		    break;
 		}
-		f = (float*)data;
-		f[par->prop_offset] = val;
+		f = (union flong*)data;
+		f[par->prop_offset].f = val;
 		break;
 	}
 
@@ -606,7 +612,7 @@ dp_show_settings(Display *dpy, XDevice *dev)
     unsigned char* data;
     int len;
 
-    float *f;
+    union flong *f;
     long *i;
     char *b;
 
@@ -660,8 +666,8 @@ dp_show_settings(Display *dpy, XDevice *dev)
 		    break;
 		}
 
-		f = (float*)data;
-		printf("    %-23s = %g\n", par->name, f[par->prop_offset]);
+		f = (union flong*)data;
+		printf("    %-23s = %g\n", par->name, f[par->prop_offset].f);
 		break;
 	}
 
