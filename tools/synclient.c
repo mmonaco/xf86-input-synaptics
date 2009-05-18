@@ -131,7 +131,7 @@ static struct Parameter params[] = {
 		SYNAPTICS_PROP_SPEED,		0, /*float */	0),
     DEFINE_PAR("MaxSpeed",             max_speed,               PT_DOUBLE, 0, 1.0,
 		SYNAPTICS_PROP_SPEED,		0, /*float */	1),
-    DEFINE_PAR("AccelFactor",          accl,                    PT_DOUBLE, 0, 0.2,
+    DEFINE_PAR("AccelFactor",          accl,                    PT_DOUBLE, 0, 1.0,
 		SYNAPTICS_PROP_SPEED,		0, /*float */	2),
     DEFINE_PAR("TrackstickSpeed",      trackstick_speed,        PT_DOUBLE, 0, 200.0,
 		SYNAPTICS_PROP_SPEED,		0, /*float */ 3),
