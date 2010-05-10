@@ -979,6 +979,15 @@ right button, two-finger detection, three-finger detection, pressure detection, 
 .BI "Synaptics Pad Resolution"
 32 bit unsigned, 2 values (read-only), vertical, horizontal in units/millimeter.
 
+.TP 7
+.BI "Synaptics LED"
+8 bit (BOOL, read-only), indicating whether the device has an embedded
+LED support or not.
+
+.TP 7
+.BI "Synaptics LED Status"
+8 bit (BOOL), the light status of the embedded LED.
+
 .SH "NOTES"
 Configuration through
 .I InputClass

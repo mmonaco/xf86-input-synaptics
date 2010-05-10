@@ -164,4 +164,10 @@
 /* 32 Bit Integer, 2 values, horizontal hysteresis, vertical hysteresis */
 #define SYNAPTICS_PROP_NOISE_CANCELLATION "Synaptics Noise Cancellation"
 
+/* 8 bit (BOOL, read-only), has_led */
+#define SYNAPTICS_PROP_LED "Synaptics LED"
+
+/* 8 bit (BOOL), led_status (on/off) */
+#define SYNAPTICS_PROP_LED_STATUS "Synaptics LED Status"
+
 #endif                          /* _SYNAPTICS_PROPERTIES_H_ */
