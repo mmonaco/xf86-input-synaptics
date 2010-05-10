@@ -103,6 +103,7 @@ struct SynapticsProtocolOperations {
                          struct SynapticsHwState * hwRet);
     Bool (*AutoDevProbe) (InputInfoPtr pInfo, const char *device);
     void (*ReadDevDimensions) (InputInfoPtr pInfo);
+    void (*UpdateLED)(InputInfoPtr pInfo);
 };
 
 #ifdef BUILD_PS2COMM

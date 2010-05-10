@@ -91,6 +91,8 @@ Atom prop_softbutton_areas = 0;
 Atom prop_noise_cancellation = 0;
 Atom prop_product_id = 0;
 Atom prop_device_node = 0;
+Atom prop_led                   = 0;
+Atom prop_led_status            = 0;
 
 static Atom
 InitTypedAtom(DeviceIntPtr dev, char *name, Atom type, int format, int nvalues,
@@ -340,6 +342,9 @@ InitDeviceProperties(InputInfoPtr pInfo)
     prop_noise_cancellation = InitAtom(pInfo->dev,
                                        SYNAPTICS_PROP_NOISE_CANCELLATION, 32, 2,
                                        values);
+
+    prop_led = InitAtom(pInfo->dev, SYNAPTICS_PROP_LED, 8, 1, &para->has_led);
+    prop_led_status = InitAtom(pInfo->dev, SYNAPTICS_PROP_LED_STATUS, 8, 1, &para->led_status);
 
     /* only init product_id property if we actually know them */
     if (priv->id_vendor || priv->id_product) {
@@ -704,6 +709,16 @@ SetProperty(DeviceIntPtr dev, Atom property, XIPropertyValuePtr prop,
             return BadValue;
         para->hyst_x = hyst[0];
         para->hyst_y = hyst[1];
+    }
+    else if (property == prop_led_status) {
+        if (prop->size != 1 || prop->format != 8 || prop->type != XA_INTEGER)
+            return BadMatch;
+
+        if (para->has_led) {
+            para->led_status = *(BOOL*)prop->data;
+            if (priv->proto_ops && priv->proto_ops->UpdateLED)
+                priv->proto_ops->UpdateLED(pInfo);
+        }
     }
     else if (property == prop_product_id || property == prop_device_node)
         return BadValue;        /* read-only */

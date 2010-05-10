@@ -59,6 +59,8 @@
 #define LONG(x)  ((x) / LONG_BITS)
 #define TEST_BIT(bit, array) ((array[LONG(bit)] >> OFF(bit)) & 1)
 
+#define SYNAPTICS_LED_SYS_FILE	"/sys/class/leds/psmouse::synaptics/brightness"
+
 /**
  * Protocol-specific data.
  */
@@ -371,6 +373,32 @@ event_get_abs(InputInfoPtr pInfo, int fd, int code,
 #endif
 
     return 0;
+}
+
+static void
+event_query_led(InputInfoPtr pInfo)
+{
+    SynapticsPrivate *priv = (SynapticsPrivate *)pInfo->private;
+
+    priv->synpara.has_led = !access(SYNAPTICS_LED_SYS_FILE, W_OK);
+}
+
+static void EventUpdateLED(InputInfoPtr pInfo)
+{
+    SynapticsPrivate *priv = (SynapticsPrivate *)pInfo->private;
+
+    if (priv->synpara.has_led) {
+        char *val = priv->synpara.led_status ? "255" : "0";
+        int fd = open(SYNAPTICS_LED_SYS_FILE, O_WRONLY);
+        int err;
+
+        if (fd < 0)
+            return;
+        err = write(fd, val, strlen(val));
+        close(fd);
+        if (err < 0)
+	    xf86IDrvMsg(pInfo, X_WARNING, "can't write LED value %s\n", val);
+    }
 }
 
 /* Query device for axis ranges */
@@ -879,6 +907,9 @@ EventReadDevDimensions(InputInfoPtr pInfo)
     event_query_model(pInfo->fd, &priv->model, &priv->id_vendor,
                       &priv->id_product);
 
+    event_query_led(pInfo);
+    event_query_model(pInfo->fd, &priv->model, &priv->id_vendor, &priv->id_product);
+
     xf86IDrvMsg(pInfo, X_PROBED, "Vendor %#hx Product %#hx\n",
                 priv->id_vendor, priv->id_product);
 }
@@ -958,5 +989,6 @@ struct SynapticsProtocolOperations event_proto_operations = {
     EventQueryHardware,
     EventReadHwState,
     EventAutoDevProbe,
-    EventReadDevDimensions
+    EventReadDevDimensions,
+    EventUpdateLED,
 };
