@@ -93,6 +93,7 @@ Atom prop_product_id = 0;
 Atom prop_device_node = 0;
 Atom prop_led                   = 0;
 Atom prop_led_status            = 0;
+Atom prop_led_double_tap        = 0;
 
 static Atom
 InitTypedAtom(DeviceIntPtr dev, char *name, Atom type, int format, int nvalues,
@@ -345,6 +346,8 @@ InitDeviceProperties(InputInfoPtr pInfo)
 
     prop_led = InitAtom(pInfo->dev, SYNAPTICS_PROP_LED, 8, 1, &para->has_led);
     prop_led_status = InitAtom(pInfo->dev, SYNAPTICS_PROP_LED_STATUS, 8, 1, &para->led_status);
+
+    prop_led_double_tap = InitAtom(pInfo->dev, SYNAPTICS_PROP_LED_DOUBLE_TAP, 8, 1, &para->led_double_tap);
 
     /* only init product_id property if we actually know them */
     if (priv->id_vendor || priv->id_product) {
@@ -720,6 +723,12 @@ SetProperty(DeviceIntPtr dev, Atom property, XIPropertyValuePtr prop,
                 priv->proto_ops->UpdateLED(pInfo);
         }
     }
+    else if (property == prop_led_double_tap) {
+        if (prop->size != 1 || prop->format != 8 || prop->type != XA_INTEGER)
+            return BadMatch;
+
+        para->led_double_tap = *(CARD8*)prop->data;
+    }
     else if (property == prop_product_id || property == prop_device_node)
         return BadValue;        /* read-only */
     else { /* unknown property */
@@ -734,4 +743,15 @@ SetProperty(DeviceIntPtr dev, Atom property, XIPropertyValuePtr prop,
     }
 
     return Success;
+}
+
+void SynapticsToggleOffProperty(DeviceIntPtr dev, Bool off)
+{
+        uint8_t val;
+
+        if (!prop_off)
+                return;
+        val = off;
+        XIChangeDeviceProperty(dev, prop_off, XA_INTEGER, 8,
+                               PropModeReplace, 1, &val, FALSE);
 }

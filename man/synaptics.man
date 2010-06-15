@@ -501,6 +501,19 @@ coordinates are less than MaxTapMove units apart.
 A "touch" event happens when the Z value goes above FingerHigh, and an
 "untouch" event happens when the Z value goes below FingerLow.
 .
+.TP
+.BI "Option \*qLEDDoubleTap\*q \*q" boolean \*q
+.
+Enables/disables the touchpad-control by double-tapping on the top-left
+corner LED.
+.
+Some devices have an LED on the top-left corner to indicate the
+touchpad state.  User can double-tap on the LED to toggle the touchpad
+state.  This option controls whether this action is enabled or not.
+The double-tap size is same as specified in MaxDoubleTapTime.
+The default value is ON.
+Property: "Synaptics LED Double Tap"
+.
 .LP
 The MaxDoubleTapTime parameter has the same function as the MaxTapTime
 parameter, but for the second, third, etc tap in a tap sequence.
@@ -842,6 +855,10 @@ LED support or not.
 .TP 7
 .BI "Synaptics LED Status"
 8 bit (BOOL), the light status of the embedded LED.
+
+.TP 7
+.BI "Synaptics LED Double Tap"
+8 bit (BOOL), enable/disable the double-tap on LED.
 
 .SH "NOTES"
 Configuration through

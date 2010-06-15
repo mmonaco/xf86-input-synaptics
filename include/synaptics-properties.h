@@ -158,4 +158,7 @@
 /* 8 bit (BOOL), led_status (on/off) */
 #define SYNAPTICS_PROP_LED_STATUS "Synaptics LED Status"
 
+/* 8 bit (BOOL), double-tap action on LED corner (on/off) */
+#define SYNAPTICS_PROP_LED_DOUBLE_TAP "Synaptics LED Dobule Tap"
+
 #endif                          /* _SYNAPTICS_PROPERTIES_H_ */
