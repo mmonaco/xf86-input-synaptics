@@ -154,6 +154,7 @@ static struct Parameter params[] = {
     {"MiddleButtonAreaTop",   PT_INT, INT_MIN, INT_MAX, SYNAPTICS_PROP_SOFTBUTTON_AREAS,	32,	6},
     {"MiddleButtonAreaBottom", PT_INT, INT_MIN, INT_MAX, SYNAPTICS_PROP_SOFTBUTTON_AREAS,	32,	7},
     {"LEDStatus",             PT_BOOL, 0,      1,       SYNAPTICS_PROP_LED_STATUS,	8,	0},
+    {"LEDDoubleTap",          PT_BOOL, 0,      1,       SYNAPTICS_PROP_LED_DOUBLE_TAP,	8,	0},
     { NULL, 0, 0, 0, 0 }
 };
 

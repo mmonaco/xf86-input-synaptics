@@ -187,6 +187,7 @@ typedef struct _SynapticsParameters {
     int hyst_x, hyst_y;         /* x and y width of hysteresis box */
     Bool has_led;               /* has an embedded LED */
     Bool led_status;            /* Current status of LED (1=on) */
+    Bool led_double_tap;        /* double-tap period in ms for touchpad LED control */
 } SynapticsParameters;
 
 struct _SynapticsPrivateRec {
@@ -273,6 +274,11 @@ struct _SynapticsPrivateRec {
     Bool has_width;             /* device reports finger width */
     Bool has_scrollbuttons;     /* device has physical scrollbuttons */
     Bool has_semi_mt;           /* device is only semi-multitouch capable */
+    int prop_change_pending;
+    Bool led_touch_state;
+    Bool led_tapped;
+    int led_touch_millis;
+    int led_tap_millis;
 
     enum TouchpadModel model;   /* The detected model */
     unsigned short id_vendor;   /* vendor id */
