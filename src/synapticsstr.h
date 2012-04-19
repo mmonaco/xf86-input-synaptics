@@ -131,7 +131,16 @@ enum TouchpadModel {
     MODEL_UNIBODY_MACBOOK
 };
 
-typedef struct _SynapticsParameters {
+enum {
+    ROTATION_CCW_0   = 0,
+    ROTATION_CCW_90  = 90,
+    ROTATION_CCW_180 = 180,
+    ROTATION_CCW_270 = 270,
+    ROTATION_CCW_360 = 360
+};
+
+typedef struct _SynapticsParameters
+{
     /* Parameter data */
     int left_edge, right_edge, top_edge, bottom_edge;   /* edge coordinates absolute */
     int finger_low, finger_high, finger_press;  /* finger detection values in Z-values */
@@ -182,6 +191,7 @@ typedef struct _SynapticsParameters {
     int area_left_edge, area_right_edge, area_top_edge, area_bottom_edge;       /* area coordinates absolute */
     int softbutton_areas[2][4]; /* soft button area coordinates, 0 => right, 1 => middle button */
     int hyst_x, hyst_y;         /* x and y width of hysteresis box */
+    int rotation;               /* Counter-clockwise degrees to rotate touchpad */
 } SynapticsParameters;
 
 struct _SynapticsPrivateRec {

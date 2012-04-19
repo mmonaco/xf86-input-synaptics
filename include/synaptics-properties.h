@@ -152,4 +152,7 @@
 /* 32 Bit Integer, 2 values, horizontal hysteresis, vertical hysteresis */
 #define SYNAPTICS_PROP_NOISE_CANCELLATION "Synaptics Noise Cancellation"
 
+/* 32 bit, 1 value, degrees counter-clockwise rotation (any integral multiple of 90) */
+#define SYNAPTICS_PROP_ROTATION "Synaptics Rotation"
+
 #endif                          /* _SYNAPTICS_PROPERTIES_H_ */

@@ -445,6 +445,10 @@ If any edge is set to 0, the button is assumed to extend to infinity in the
 given direction. Setting all values to 0 disables soft button areas.
 Property: "Synaptics Soft Button Areas"
 .
+.TP
+.BI "Option \*qRotation\*q \*q" integer \*q
+A rotation specified as degrees counter-clockwise. Any integral multiple of
+90 degrees is valid.
 
 .SH CONFIGURATION DETAILS
 .SS Area handling
@@ -831,6 +835,12 @@ right button, two-finger detection, three-finger detection, pressure detection, 
 .TP 7
 .BI "Synaptics Pad Resolution"
 32 bit unsigned, 2 values (read-only), vertical, horizontal in units/millimeter.
+
+.TP 7
+.BI "Synaptics Rotation"
+A counter-clockwise rotation of the touchpad in degrees.
+
+32 bit, 1 value (any integral multiple of 90)
 
 .SH "NOTES"
 Configuration through

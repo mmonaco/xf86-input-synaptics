@@ -140,6 +140,7 @@ static struct Parameter params[] = {
     {"MiddleButtonAreaRight", PT_INT, INT_MIN, INT_MAX, SYNAPTICS_PROP_SOFTBUTTON_AREAS,	32,	5},
     {"MiddleButtonAreaTop",   PT_INT, INT_MIN, INT_MAX, SYNAPTICS_PROP_SOFTBUTTON_AREAS,	32,	6},
     {"MiddleButtonAreaBottom", PT_INT, INT_MIN, INT_MAX, SYNAPTICS_PROP_SOFTBUTTON_AREAS,	32,	7},
+    {"Rotation",              PT_INT, INT_MIN, INT_MAX, SYNAPTICS_PROP_ROTATION,	32,	0},
     { NULL, 0, 0, 0, 0 }
 };
 

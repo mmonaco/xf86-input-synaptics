@@ -91,6 +91,7 @@ Atom prop_softbutton_areas = 0;
 Atom prop_noise_cancellation = 0;
 Atom prop_product_id = 0;
 Atom prop_device_node = 0;
+Atom prop_rotation = 0;
 
 static Atom
 InitTypedAtom(DeviceIntPtr dev, char *name, Atom type, int format, int nvalues,
@@ -340,6 +341,9 @@ InitDeviceProperties(InputInfoPtr pInfo)
     prop_noise_cancellation = InitAtom(pInfo->dev,
                                        SYNAPTICS_PROP_NOISE_CANCELLATION, 32, 2,
                                        values);
+
+    prop_rotation = InitAtom(pInfo->dev,
+            SYNAPTICS_PROP_ROTATION, 32, 1, &para->rotation);
 
     /* only init product_id property if we actually know them */
     if (priv->id_vendor || priv->id_product) {
@@ -692,8 +696,13 @@ SetProperty(DeviceIntPtr dev, Atom property, XIPropertyValuePtr prop,
 
         memcpy(para->softbutton_areas[0], areas, 4 * sizeof(int));
         memcpy(para->softbutton_areas[1], areas + 4, 4 * sizeof(int));
+<<<<<<< HEAD
     }
     else if (property == prop_noise_cancellation) {
+=======
+    } else if (property == prop_noise_cancellation)
+    {
+>>>>>>> Add rotation property, param, and docs
         INT32 *hyst;
 
         if (prop->size != 2 || prop->format != 32 || prop->type != XA_INTEGER)
@@ -704,9 +713,27 @@ SetProperty(DeviceIntPtr dev, Atom property, XIPropertyValuePtr prop,
             return BadValue;
         para->hyst_x = hyst[0];
         para->hyst_y = hyst[1];
+<<<<<<< HEAD
     }
     else if (property == prop_product_id || property == prop_device_node)
         return BadValue;        /* read-only */
+=======
+    } else if (property == prop_rotation)
+    {
+        INT32 rot;
+        if (prop->size != 1 || prop->format != 32 || prop->type != XA_INTEGER)
+            return BadMatch;
+
+        rot = *(INT32*)prop->data;
+        if (rot % ROTATION_CCW_90 != 0)
+            return BadValue;
+        /* internally, only 0, 90, 180, and 270 are used */
+        para->rotation = ( (rot/ROTATION_CCW_90)
+                          %(ROTATION_CCW_360/ROTATION_CCW_90)
+                         ) * ROTATION_CCW_90;
+    } else if (property == prop_product_id || property == prop_device_node)
+        return BadValue; /* read-only */
+>>>>>>> Add rotation property, param, and docs
 
     return Success;
 }
