@@ -731,6 +731,8 @@ SetProperty(DeviceIntPtr dev, Atom property, XIPropertyValuePtr prop,
         para->rotation = ( (rot/ROTATION_CCW_90)
                           %(ROTATION_CCW_360/ROTATION_CCW_90)
                          ) * ROTATION_CCW_90;
+        if (para->rotation < 0)
+            para->rotation += ROTATION_CCW_360;
     } else if (property == prop_product_id || property == prop_device_node)
         return BadValue; /* read-only */
 >>>>>>> Add rotation property, param, and docs

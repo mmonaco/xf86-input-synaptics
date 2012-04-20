@@ -610,6 +610,9 @@ PS2ReadHwStateProto(InputInfoPtr pInfo,
 
     hw->y = YMAX_NOMINAL + YMIN_NOMINAL - hw->y;
 
+    ROTATE_HORIZ(priv, hw, hw->x);
+    ROTATE_VERT(priv,  hw, hw->y);
+
     if (hw->z >= para->finger_high) {
         int w_ok = 0;
 

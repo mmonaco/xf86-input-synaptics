@@ -147,7 +147,8 @@ ALPS_get_packet(struct CommData *comm, InputInfoPtr pInfo)
  * reflects left,right,down,up in lef1,rig1,mid1,up1.
  */
 static void
-ALPS_process_packet(unsigned char *packet, struct SynapticsHwState *hw)
+ALPS_process_packet(SynapticsPrivate *priv, unsigned char *packet,
+                    struct SynapticsHwState *hw)
 {
     int x = 0, y = 0, z = 0;
     int left = 0, right = 0, middle = 0;
@@ -172,8 +173,8 @@ ALPS_process_packet(unsigned char *packet, struct SynapticsHwState *hw)
         hw->multi[i] = FALSE;
 
     if (z > 0) {
-        hw->x = x;
-        hw->y = y;
+        ROTATE_HORIZ(priv, hw, x);
+        ROTATE_VERT(priv, hw, y);
     }
     hw->z = z;
     hw->numFingers = (z > 0) ? 1 : 0;
@@ -212,11 +213,12 @@ ALPSReadHwState(InputInfoPtr pInfo,
 {
     unsigned char *buf = comm->protoBuf;
     struct SynapticsHwState *hw = comm->hwState;
+    SynapticsPrivate *priv = (SynapticsPrivate *)pInfo->private;
 
     if (!ALPS_get_packet(comm, pInfo))
         return FALSE;
 
-    ALPS_process_packet(buf, hw);
+    ALPS_process_packet(priv, buf, hw);
 
     SynapticsCopyHwState(hwRet, hw);
     return TRUE;

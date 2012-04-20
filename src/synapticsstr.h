@@ -287,4 +287,44 @@ struct _SynapticsPrivateRec {
     int num_active_touches;     /* Number of active touches on device */
 };
 
+static void
+ROTATE_HORIZ(SynapticsPrivate *priv, struct SynapticsHwState *hw, int x)
+{
+    SynapticsParameters *para = &priv->synpara;
+
+    if (para->rotation == ROTATION_CCW_90)
+        hw->y = (x - priv->minx) * (priv->maxy - priv->miny)
+              / (priv->maxx - priv->minx) + priv->miny;
+
+    else if (para->rotation == ROTATION_CCW_180)
+        hw->x = priv->maxx + priv->minx - x;
+
+    else if (para->rotation == ROTATION_CCW_270)
+        hw->y = (priv->maxx - x) * (priv->maxy - priv->miny)
+              / (priv->maxx - priv->minx) + priv->miny;
+
+    else
+        hw->x = x;
+}
+
+static void
+ROTATE_VERT(SynapticsPrivate *priv, struct SynapticsHwState *hw, int y)
+{
+    SynapticsParameters *para = &priv->synpara;
+
+    if (para->rotation == ROTATION_CCW_90)
+        hw->x = (priv->maxy - y) * (priv->maxx - priv->minx)
+              / (priv->maxy - priv->miny) + priv->minx;
+
+    else if (para->rotation == ROTATION_CCW_180)
+        hw->y = priv->maxy + priv->miny - y;
+
+    else if (para->rotation == ROTATION_CCW_270)
+        hw->x = (y - priv->miny) * (priv->maxx - priv->minx)
+              / (priv->maxy - priv->miny) + priv->minx;
+
+    else
+        hw->y = y;
+}
+
 #endif                          /* _SYNAPTICSSTR_H_ */

@@ -2967,8 +2967,14 @@ ScaleCoordinates(SynapticsPrivate * priv, struct SynapticsHwState *hw)
     int xCenter = (priv->synpara.left_edge + priv->synpara.right_edge) / 2;
     int yCenter = (priv->synpara.top_edge + priv->synpara.bottom_edge) / 2;
 
-    hw->x = (hw->x - xCenter) * priv->horiz_coeff + xCenter;
-    hw->y = (hw->y - yCenter) * priv->vert_coeff + yCenter;
+    if (priv->synpara.rotation == ROTATION_CCW_0 ||
+        priv->synpara.rotation == ROTATION_CCW_180) {
+        hw->x = (hw->x - xCenter) * priv->horiz_coeff + xCenter;
+        hw->y = (hw->y - yCenter) * priv->vert_coeff  + yCenter;
+    } else {
+        hw->x = (hw->x - xCenter) * priv->vert_coeff  + xCenter;
+        hw->y = (hw->y - yCenter) * priv->horiz_coeff + yCenter;
+    }
 }
 
 void

@@ -628,6 +628,7 @@ EventReadHwState(InputInfoPtr pInfo,
     SynapticsPrivate *priv = (SynapticsPrivate *) pInfo->private;
     SynapticsParameters *para = &priv->synpara;
     struct eventcomm_proto_data *proto_data = priv->proto_data;
+    int axis;
 
     SynapticsResetTouchHwState(hw, FALSE);
 
@@ -709,10 +710,12 @@ EventReadHwState(InputInfoPtr pInfo,
             if (ev.code < ABS_MT_SLOT) {
                 switch (ev.code) {
                 case ABS_X:
-                    hw->x = apply_st_scaling(proto_data, ev.value, 0);
+                    axis = (para->rotation % ROTATION_CCW_180 == 0) ? 1 : 0;
+                    ROTATE_HORIZ(priv, hw, apply_st_scaling(proto_data, ev.value, axis));
                     break;
                 case ABS_Y:
-                    hw->y = apply_st_scaling(proto_data, ev.value, 1);
+                    axis = (para->rotation % ROTATION_CCW_180 == 0) ? 0 : 1;
+                    ROTATE_VERT(priv, hw, apply_st_scaling(proto_data, ev.value, axis));
                     break;
                 case ABS_PRESSURE:
                     hw->z = ev.value;
