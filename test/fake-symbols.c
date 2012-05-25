@@ -321,6 +321,12 @@ xf86IDrvMsg(InputInfoPtr dev, MessageType type, const char *format, ...)
 }
 
 _X_EXPORT void
+LogMessageVerbSigSafe(MessageType type, int verb, const char *format, ...)
+{
+    return;
+}
+
+_X_EXPORT void
 xf86PostMotionEventP(DeviceIntPtr device,
                      int is_absolute, int first_valuator, int num_valuators,
 #if GET_ABI_MAJOR(ABI_XINPUT_VERSION) >= 12
