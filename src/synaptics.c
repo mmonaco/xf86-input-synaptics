@@ -1154,6 +1154,7 @@ SynapticsReset(SynapticsPrivate * priv)
     priv->prev_z = 0;
     priv->prevFingers = 0;
 #ifdef HAVE_MULTITOUCH
+    priv->num_active_touches = 0;
     memset(priv->open_slots, 0, priv->num_slots * sizeof(int));
 #endif
 }
@@ -3118,6 +3119,7 @@ UpdateTouchState(InputInfoPtr pInfo, struct SynapticsHwState *hw)
         if (hw->slot_state[i] == SLOTSTATE_OPEN) {
             priv->open_slots[priv->num_active_touches] = i;
             priv->num_active_touches++;
+            BUG_WARN(priv->num_active_touches > priv->num_slots);
         }
         else if (hw->slot_state[i] == SLOTSTATE_CLOSE) {
             Bool found = FALSE;
