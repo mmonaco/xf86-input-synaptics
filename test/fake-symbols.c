@@ -85,12 +85,6 @@ xf86NameCmp(const char *s1, const char *s2)
     return 0;
 }
 
-_X_EXPORT char *
-xf86CheckStrOption(OPTTYPE optlist, const char *name, char *deflt)
-{
-    return NULL;
-}
-
 _X_EXPORT void
 xf86AddEnabledDevice(InputInfoPtr pInfo)
 {
