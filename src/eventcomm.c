@@ -380,7 +380,12 @@ event_query_led(InputInfoPtr pInfo)
 {
     SynapticsPrivate *priv = (SynapticsPrivate *)pInfo->private;
 
+    xf86IDrvMsg(pInfo, X_INFO, "led: checking for access to %s\n", SYNAPTICS_LED_SYS_FILE);
     priv->synpara.has_led = !access(SYNAPTICS_LED_SYS_FILE, W_OK);
+    if (priv->synpara.has_led)
+        xf86IDrvMsg(pInfo, X_INFO, "led: access ok\n");
+    else
+        xf86IDrvMsg(pInfo, X_INFO, "led: no access\n");
 }
 
 static void EventUpdateLED(InputInfoPtr pInfo)
